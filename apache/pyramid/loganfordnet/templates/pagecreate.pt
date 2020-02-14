@@ -1,0 +1,32 @@
+<div metal:use-macro="load: include/layout.pt">
+    <div metal:fill-slot="content">
+        <h2>Create Page</h2>
+        
+        <form method="post">
+            <table>
+                <tr>
+                    <td>Page Title</td>
+                    <td><input type="text" name="page_name"></td>
+                </tr>
+                <tr>
+                    <td>URL</td>
+                    <td><input type="text" name="page_url"></td>
+                </tr>
+                <tr>
+                    <td>Display in Sidebar</td>
+                    <td><input type="checkbox" name="display_in_sidebar"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <textarea name="content" rows="50" cols="120"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="buttonLight emphasis" type="submit">CREATE PAGE</button></td>
+                </tr>
+            </table>
+        </form>
+        
+    </div>
+</div>

@@ -1,0 +1,6 @@
+LF_ENVIRONMENT dev
+LF_MYSQL_ROOT_PASS password
+LF_MYSQL_PASS password
+LF_ROOT_PASSWORD password
+LF_AUTH_SECRET seekrit
+VENV $HOME/loganfordnetvenv

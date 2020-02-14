@@ -1,0 +1,32 @@
+<div metal:use-macro="load: include/layout.pt">
+    <div metal:fill-slot="content">
+        <h2>Sign Up</h2>
+        
+        <form method="post">
+            <table>
+                <tr>
+                    <td>Username</td>
+                    <td><input type="text" name="username"></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" name="password"></td>
+                </tr>
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input type="password" name="confirm_password"></td>
+                </tr>
+                <tr>
+                    <td>Site Code*</td>
+                    <td><input type="password" name="site_code"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="buttonLight emphasis" type="submit">CREATE ACCOUNT</button></td>
+                </tr>
+            </table>
+            
+            <p>*Ask me for the site code to sign up ;-)</p>
+        </form>
+    </div>
+</div>

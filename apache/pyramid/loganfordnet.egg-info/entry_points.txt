@@ -1,0 +1,6 @@
+[console_scripts]
+initialize_loganfordnet_db = loganfordnet.scripts.initialize_db:main
+
+[paste.app_factory]
+main = loganfordnet:main
+

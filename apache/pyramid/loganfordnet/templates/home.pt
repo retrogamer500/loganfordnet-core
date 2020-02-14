@@ -1,0 +1,6 @@
+<div metal:use-macro="load: include/layout.pt">
+    <div metal:fill-slot="content">
+        <h2>Welcome to my site</h2>
+        <p>I've created this site mainly to rapidly prototype webapps. As such, there isn't much publicly available.</p>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<!DOCTYPE html metal:define-macro="layout">
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>loganford.net</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="${request.static_url('loganfordnet:static/style.css')}">
+		<script src="${request.static_url('loganfordnet:static/common.js')}"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.6/build/styles/default.min.css">
+		<script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.15.6/build/highlight.min.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+	</head>
+
+	<body>
+		<div class="header">
+			<div class="row">
+				<div class="cell">
+					<div class="hamburger-menu">
+						<div class="hamburger-menu-bar"></div>
+						<div class="hamburger-menu-bar"></div>
+						<div class="hamburger-menu-bar"></div>
+					</div>
+				</div>
+				<div class="cell">
+					<a href="/" style="text-decoration: none; color: #fff;">loganford.net</a>
+				</div>
+                <div class="cell" style="width: 100%;"></div>
+                
+                <div tal:omit-tag="" tal:condition="request.user is None">
+                    <div class="cell">
+                        <a class="buttonDark" href="/log_in/">LOG IN</a>
+                    </div>
+                    <div class="cell" style="padding-right: 24px;">
+                        <a class="buttonDark emphasis" href="/sign_up/">SIGN UP</a>
+                    </div>
+                </div>
+                <div tal:omit-tag="" tal:condition="request.user is not None">
+                    <div class="cell">
+                        <a class="buttonDark" href="/user/${request.user.id}/">PROFILE</a>
+                    </div>
+                    <div class="cell" style="padding-right: 24px;">
+                        <a class="buttonDark" href="/log_out/">LOG OUT</a>
+                    </div>
+                </div>
+                
+			</div>
+		</div>
+		
+		<div class="menu stowed">
+			<ul>
+                <a href="/user/" tal:condition="request.user != None and request.user.permission_enabled('admin.user')"><li>User List</li></a>
+                <a href="/page_maintenance/" tal:condition="request.user != None and request.user.permission_enabled('pages.admin')"><li>Page Maintenance</li></a>
+                
+                <div tal:omit-tag="" tal:repeat="custom_page custom_pages">
+                    <a href="${custom_page.url}"><li>${custom_page.title}</li></a>
+                </div>
+                
+                
+			</ul>
+		</div>
+        
+        <div class="dimmer"></div>
+	
+		<div class="article">
+            <div class="articleContainer">
+                <span tal:omit-tag="" tal:define="global messages request.session.pop_flash()"></span>
+                <div tal:omit-tag="" tal:condition="exists: messages">
+                    <div tal:condition="len(messages) > 0" class="alert">
+                        <p tal:repeat="message messages">
+                            ${message}
+                        </p>
+                    </div>
+                </div>
+                
+                <div metal:define-slot="content"></div>
+            </div>
+        </div>
+	</body>
+
+</html>

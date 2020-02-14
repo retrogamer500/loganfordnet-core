@@ -4,5 +4,15 @@ services:
     build: 
       context: ./apache/
       dockerfile: Dockerfile
+    env_file:
+     - ./config.env
     ports:
       - "8080:80"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql
+    env_file:
+     - ./config.env
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
