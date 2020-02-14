@@ -7,5 +7,6 @@ RUN apt-get update \
 COPY httpd.conf /usr/local/apache2/conf/httpd.conf
 
 RUN useradd -ms /bin/bash pyramid
+RUN useradd -ms /bin/bash apache
 
 COPY pyramid /home/pyramid
