@@ -5,14 +5,7 @@ from pyramid.session import SignedCookieSessionFactory
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
-    """
-    if 'environfile' in settings:
-        env_file = settings['environfile']
-        with open(env_file) as f:
-            for line in f:
-                split = line.split()
-                os.environ[split[0]] = split[1]
-    
+    """    
     settings = expand_vars(settings)
     
     with Configurator(settings=settings) as config:

@@ -42,7 +42,7 @@ def parse_args(argv):
     parser = argparse.ArgumentParser()
     parser.add_argument(
         'config_uri',
-        help='Configuration file, e.g., development.ini',
+        help='Configuration file, e.g., configuration.ini',
     )
     return parser.parse_args(argv[1:])
 
