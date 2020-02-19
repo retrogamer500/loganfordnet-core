@@ -11,11 +11,10 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
     default-mysql-server \
     python3-pip \
-    gcc
+    gunicorn3
 
 RUN pip3 install wheel && \
     pip3 install setuptools && \
-    pip3 install mod-wsgi &&\
     pip3 install PyMySQL && \
     pip3 install alembic==1.0.10 && \
     pip3 install pyramid_chameleon && \

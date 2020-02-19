@@ -8,6 +8,7 @@ services:
      - ./config.env
     ports:
       - "80:80"
+      - "8000:8000"
     depends_on:
       - mysql
     command: ["./apache-start.sh"]
