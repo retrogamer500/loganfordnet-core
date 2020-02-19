@@ -9,12 +9,34 @@ services:
     ports:
       - "80:80"
       - "8000:8000"
+  loganfordnet:
+    build:
+      context: ./loganfordnet/
+      dockerfile: Dockerfile
+    env_file:
+      - ./config.env
     depends_on:
       - mysql
-    command: ["./apache-start.sh"]
+    command: ["./startup.sh"]
   mysql:
     image: mysql
     env_file:
      - ./config.env
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+  jellyfin:
+    image: linuxserver/jellyfin
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_York
+      - UMASK_SET=022 #optional
+    volumes:
+      - /path/to/library:/config
+      - /path/to/tvseries:/data/tvshows
+      - /path/to/movies:/data/movies
+    ports:
+      - 8096:8096
+      - 8920:8920 #optional
+    restart: unless-stopped

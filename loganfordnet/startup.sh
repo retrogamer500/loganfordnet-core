@@ -17,7 +17,7 @@ then
     echo "Database not set up for loganfordnet"
     pushd /home/loganfordnet/
     find /home/loganfordnet/ -name "*.pyc" -exec rm -f {} \;
-    /usr/bin/python3.7 -m loganfordnet.scripts.initialize_db /home/loganfordnet/configuration.ini
+    python3 -m loganfordnet.scripts.initialize_db /home/loganfordnet/configuration.ini
     popd
     echo "Done initializing database"
 else
@@ -29,11 +29,4 @@ fi
 #Run gunicorn
 pushd /home/loganfordnet/
 find /home/loganfordnet/ -name "*.pyc" -exec rm -f {} \;
-gunicorn3 -b 0.0.0.0:8000 --workers=5 wsgi:app &
-popd
-
-#Run apache
-apachectl -D FOREGROUND
-
-#Don't think I need this
-#tail -f /dev/null
+gunicorn3 -b 0.0.0.0:8000 --workers=5 wsgi:app

@@ -29,8 +29,6 @@ def setup_models(dbsession, settings):
     
     permission = models.Permission(name='admin.user', group='admin', description='Access user administration')
     dbsession.add(permission)
-    permission2 = models.Permission(name='csgo.10man.submit', group='csgo', description='Submit CSGO matches on 10-man page')
-    dbsession.add(permission2)
     permission3 = models.Permission(name='pages.admin', group='pages', description='Create and edit pages')
     dbsession.add(permission3)
     
@@ -72,3 +70,6 @@ might be caused by one of the following things:
     database server referred to by the "sqlalchemy.url" setting in
     your "development.ini" file is running.
             ''')
+
+if __name__ == "__main__":
+    main(sys.argv)
