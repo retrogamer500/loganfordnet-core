@@ -10,6 +10,12 @@ done
 
 echo "Mysql has started"
 
+#Install project
+if [ ! -f /var/setup_finished ]; then
+    pip3 install -e /home/loganfordnet
+    touch /var/setup_finished
+fi
+
 #Initialize DB
 userTableOutput=$(mysql -h mysql -u root -p$MYSQL_ROOT_PASSWORD loganfordnet -e "show tables like \"user\"")
 if [ -z "$userTableOutput" ]
@@ -23,8 +29,6 @@ then
 else
     echo "Existing loganfordnet database found"
 fi
-
-#Todo: perform SQL updates?
 
 #Run gunicorn
 pushd /home/loganfordnet/

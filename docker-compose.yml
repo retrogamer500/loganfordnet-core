@@ -15,6 +15,8 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./config.env
+    volumes:
+      - ${LFN_ROOT}:/home/loganfordnet
     depends_on:
       - mysql
     command: ["./startup.sh"]
@@ -24,19 +26,81 @@ services:
      - ./config.env
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - ${V_ROOT}/mysql:/var/lib/mysql
   jellyfin:
     image: linuxserver/jellyfin
-    container_name: jellyfin
+    env_file:
+      - ./config.env
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/New_York
       - UMASK_SET=022 #optional
     volumes:
-      - /path/to/library:/config
-      - /path/to/tvseries:/data/tvshows
-      - /path/to/movies:/data/movies
+      - ${V_ROOT}/jellyfin/config:/config
+      - ${V_ROOT}/jellyfin/data/tvshows:/data/tvshows
+      - ${V_ROOT}/jellyfin/data/movies:/data/movies
     ports:
       - 8096:8096
       - 8920:8920 #optional
     restart: unless-stopped
+  ombi:
+    restart: always
+    image: linuxserver/ombi
+    volumes:
+      - ${V_ROOT}/ombi/config:/config
+    ports:
+      - "3579:3579"
+    env_file:
+      - ./config.env
+  radarr:
+    image: "linuxserver/radarr"
+    volumes:
+      - ${V_ROOT}/radarr/config:/config
+      - ${V_ROOT}/jellyfin/movies:/movies
+      - ${V_ROOT}/transmission/data/completed:/data/completed
+    ports:
+      - "7878:7878"
+    restart: always
+    env_file:
+      - ./config.env
+  sonarr:
+    image: "linuxserver/sonarr"
+    volumes:
+      - ${V_ROOT}/sonarr/config:/config
+      - ${V_ROOT}/sonarr/downloads:/downloads
+      - ${V_ROOT}/sonarr/tv:/tv
+    ports:
+        - "8989:8989"
+    restart: always
+    env_file:
+      - ./config.env
+  transmission-vpn:
+    image: haugene/transmission-openvpn
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    restart: always
+    ports:
+    - "9091:9091"
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    volumes:
+      - ${V_ROOT}/transmission/data:/data
+      - ${V_ROOT}/transmission/data/watch:/data/watch
+      - ${V_ROOT}/transmission/data/completed:/data/completed
+      - ${V_ROOT}/transmission/data/incomplete:/data/incomplete
+    env_file:
+      - ./config.env
+    environment:
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+  jackett:
+    image: "linuxserver/jackett"
+    volumes:
+      - ${V_ROOT}/jackett/config:/config
+      - ${V_ROOT}/jackett/downloads:/downloads
+    ports:
+      - "9117:9117"
+    restart: always
+    env_file:
+      - ./config.env
