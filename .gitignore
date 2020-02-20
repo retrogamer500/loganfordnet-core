@@ -1,4 +1,4 @@
-config.env
+/config.env
 .Python
 build/
 develop-eggs/
