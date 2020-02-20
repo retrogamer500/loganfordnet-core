@@ -41,3 +41,10 @@ docker-compose down
 docker rmi $(docker images -a -q)
 docker system prune --volumes
 ```
+
+## Todo List
+* Add auth ticket tokens on login, verify in httpd
+* Add user configurations for subdomain access, and add links in sidebar
+* Refactor view project structure to keep templates in the same folder as views
+* Clean up scripts and sql folder, and remove unneeded scripts
+* Add SSL support
