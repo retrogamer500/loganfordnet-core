@@ -90,6 +90,8 @@ services:
       - ${V_ROOT}/transmission/data/watch:/data/watch
       - ${V_ROOT}/transmission/data/completed:/data/completed
       - ${V_ROOT}/transmission/data/incomplete:/data/incomplete
+    ports:
+      - "51413:51413"
     env_file:
       - ./config.env
     environment:
