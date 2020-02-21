@@ -27,12 +27,16 @@ def setup_models(dbsession, settings):
     rootUser.set_password(settings['root.password'])
     dbsession.add(rootUser)
     
-    permission = models.Permission(name='admin.user', group='admin', description='Access user administration')
-    dbsession.add(permission)
-    permission3 = models.Permission(name='pages.admin', group='pages', description='Create and edit pages')
-    dbsession.add(permission3)
+    dbsession.add(models.Permission(name='admin_user', group='admin', description='Access user administration'))
+    dbsession.add(models.Permission(name='pages_admin', group='pages', description='Create and edit pages'))
+    dbsession.add(models.Permission(name='subdomain_jellyfin', group='subdomain', description='Access Jellyfin'))
+    dbsession.add(models.Permission(name='subdomain_ombi', group='subdomain', description='Access Ombi'))
+    dbsession.add(models.Permission(name='subdomain_jackett', group='subdomain', description='Access Jackett'))
+    dbsession.add(models.Permission(name='subdomain_sonarr', group='subdomain', description='Access Sonarr'))
+    dbsession.add(models.Permission(name='subdomain_radarr', group='subdomain', description='Access Radarr'))
+    dbsession.add(models.Permission(name='subdomain_transmission', group='subdomain', description='Access Transmission'))
     
-    user_permission = models.UserPermission(name='admin.user', user=rootUser, setting=1)
+    user_permission = models.UserPermission(name='admin_user', user=rootUser, setting=1)
     dbsession.add(user_permission)
 
 

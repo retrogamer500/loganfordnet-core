@@ -22,7 +22,7 @@ if [ -z "$userTableOutput" ]
 then
     echo "Database not set up for loganfordnet"
     pushd /home/loganfordnet/
-    find /home/loganfordnet/ -name "*.pyc" -exec rm -f {} \;
+    find /home/loganfordnet/ -name "*.pyc" -exec rm -f {} \; #Fix weird magic number issues
     python3 -m loganfordnet.scripts.initialize_db /home/loganfordnet/configuration.ini
     popd
     echo "Done initializing database"
@@ -31,6 +31,11 @@ else
 fi
 
 #Run gunicorn
+GUNICORN_ARGS=""
+if [ "$ENVIRONMENT" = "dev" ]; then
+    GUNICORN_ARGS="${GUNICORN_ARGS} --reload"
+fi
+
 pushd /home/loganfordnet/
-find /home/loganfordnet/ -name "*.pyc" -exec rm -f {} \;
-gunicorn3 -b 0.0.0.0:8000 --workers=5 wsgi:app
+find /home/loganfordnet/ -name "*.pyc" -exec rm -f {} \; #Fix weird magic number issues
+gunicorn3 -b 0.0.0.0:8000 --workers=5 wsgi:app ${GUNICORN_ARGS}

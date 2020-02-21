@@ -49,8 +49,14 @@
 		
 		<div class="menu stowed">
 			<ul>
-                <a href="/user/" tal:condition="request.user != None and request.user.permission_enabled('admin.user')"><li>User List</li></a>
-                <a href="/page_maintenance/" tal:condition="request.user != None and request.user.permission_enabled('pages.admin')"><li>Page Maintenance</li></a>
+                <a href="/user/" tal:condition="request.user != None and request.user.permission_enabled('admin_user')"><li>User List</li></a>
+                <a href="/page_maintenance/" tal:condition="request.user != None and request.user.permission_enabled('pages_admin')"><li>Page Maintenance</li></a>
+                <a href="http://jellyfin.loganford.net" tal:condition="request.user != None and request.user.permission_enabled('subdomain_jellyfin')"><li>Jellyfin</li></a>
+                <a href="http://ombi.loganford.net" tal:condition="request.user != None and request.user.permission_enabled('subdomain_ombi')"><li>Ombi</li></a>
+                <a href="http://jackett.loganford.net" tal:condition="request.user != None and request.user.permission_enabled('subdomain_jackett')"><li>Jackett</li></a>
+                <a href="http://sonarr.loganford.net" tal:condition="request.user != None and request.user.permission_enabled('subdomain_sonarr')"><li>Sonarr</li></a>
+                <a href="http://radarr.loganford.net" tal:condition="request.user != None and request.user.permission_enabled('subdomain_radarr')"><li>Radarr</li></a>
+                <a href="http://transmission.loganford.net" tal:condition="request.user != None and request.user.permission_enabled('subdomain_transmission')"><li>Transmission</li></a>
                 
                 <div tal:omit-tag="" tal:repeat="custom_page custom_pages">
                     <a href="${custom_page.url}"><li>${custom_page.title}</li></a>

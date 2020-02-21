@@ -24,8 +24,24 @@ class LogInView(LoganFordNetView):
             
             if not failed:
                 #Log in sucessful
-                headers = remember(self.request, user.id)
-                return HTTPFound(location=self.request.route_url('home'), headers=headers)
+                tokens = []
+                for user_permission in user.permissions:
+                    if user_permission.setting == 1:
+                        tokens.append(str(user_permission.name))
+
+                headers = remember(self.request, user.id, tokens=tokens)
+                
+                new_headers = []
+                for header in headers:
+                    if header[0] == 'Set-Cookie' and header[1].startswith('auth_tkt'):
+                        headerl = list(header)
+                        headerl[1] = headerl[1].replace('\\054', ',')
+                        print(headerl)
+                        header = tuple(headerl)
+                    
+                    new_headers.append(header)
+
+                return HTTPFound(location=self.request.route_url('home'), headers=new_headers)
             else:
                 return self.response
         

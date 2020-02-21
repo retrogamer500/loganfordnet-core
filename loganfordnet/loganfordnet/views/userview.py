@@ -75,7 +75,7 @@ def user_page_factory(request):
 class UserPageResource(object):
     def __acl__(self):
         return [
-            (Allow, 'perm:admin.user', 'list'),
+            (Allow, 'perm:admin_user', 'list'),
         ]
 
 def user_model_factory(request):
@@ -92,8 +92,8 @@ class UserModelResource(object):
     def __acl__(self):
         return [
             (Allow, str(self.user.id), 'view'),
-            (Allow, 'perm:admin.user', 'view'),
-            (Allow, 'perm:admin.user', 'edit'),
+            (Allow, 'perm:admin_user', 'view'),
+            (Allow, 'perm:admin_user', 'edit'),
             (Allow, str(self.user.id), 'delete'),
-            (Allow, 'perm:admin.user', 'delete'),
+            (Allow, 'perm:admin_user', 'delete'),
         ]

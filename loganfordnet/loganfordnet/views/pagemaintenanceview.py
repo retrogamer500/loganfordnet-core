@@ -97,8 +97,8 @@ def page_maintenance_page_factory(request):
 class PageMaintenancePageResource(object):
     def __acl__(self):
         return [
-            (Allow, 'perm:pages.admin', 'list'),
-            (Allow, 'perm:pages.admin', 'create'),
+            (Allow, 'perm:pages_admin', 'list'),
+            (Allow, 'perm:pages_admin', 'create'),
         ]
 
 def page_maintenance_model_factory(request):
@@ -114,6 +114,6 @@ class PageMaintenanceModelResource(object):
     
     def __acl__(self):
         return [
-            (Allow, 'perm:pages.admin', 'delete'),
-            (Allow, 'perm:pages.admin', 'edit'),
+            (Allow, 'perm:pages_admin', 'delete'),
+            (Allow, 'perm:pages_admin', 'edit'),
         ]
