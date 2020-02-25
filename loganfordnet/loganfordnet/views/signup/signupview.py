@@ -4,16 +4,15 @@ from pyramid.httpexceptions import HTTPFound
 
 from sqlalchemy.exc import DBAPIError
 
-from .. import models
-from ..models import User
-from .loganfordnetview import LoganFordNetView
+from ...models import User
+from ..loganfordnetview import LoganFordNetView
 
 import re
 
 username_regex = '^[a-zA-Z0-9_]+$'
 
 class SignUpView(LoganFordNetView):
-    @view_config(route_name='sign_up', renderer='../templates/signup.pt')
+    @view_config(route_name='sign_up', renderer='./signup.pt')
     def sign_up(self):
         if self.request.method == 'POST':
             failed = False

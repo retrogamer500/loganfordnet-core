@@ -1,4 +1,4 @@
-<div metal:use-macro="load: include/layout.pt">
+<div metal:use-macro="load: ../layout.pt">
     <div metal:fill-slot="content">
         <h2>Page Maintenance</h2>
         <a class="buttonLight emphasis" href="/page_maintenance/create/">CREATE PAGE</a>

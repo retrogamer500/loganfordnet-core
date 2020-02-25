@@ -62,7 +62,7 @@ Todo: add documentation here
 * ~~Add user configurations for subdomain access, and add links in sidebar~~
 * ~~Add teamspeak @loganford.net~~
 * Update dev and prod env files
-* Refactor view project structure to keep templates in the same folder as views
+* ~~Refactor view project structure to keep templates in the same folder as views~~
 * Clean up scripts and sql folder, and remove unneeded scripts
 * Add SSL support
 * Move teamspeak over to teamspeak.loganford.net?

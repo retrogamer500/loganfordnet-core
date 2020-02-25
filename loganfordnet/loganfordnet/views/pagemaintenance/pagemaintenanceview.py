@@ -3,19 +3,19 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.security import Allow, Everyone, forget
 
-from .loganfordnetview import LoganFordNetView
+from ..loganfordnetview import LoganFordNetView
 
-from ..models import Page, PageHistory
+from ...models import Page, PageHistory
 
 class PageMaintenanceView(LoganFordNetView):
-    @view_config(route_name='page_maintenance_list', renderer='../templates/pagemaintenancelist.pt', permission='list')
+    @view_config(route_name='page_maintenance_list', renderer='./pagemaintenancelist.pt', permission='list')
     def page_maintenance_list(self):
         pages = self.request.dbsession.query(Page).all()
         self.response['pages'] = pages
         
         return self.response
     
-    @view_config(route_name='page_maintenance_create', renderer='../templates/pagecreate.pt', permission='create')
+    @view_config(route_name='page_maintenance_create', renderer='./pagecreate.pt', permission='create')
     def page_maintenance_create(self):
         
         if self.request.method == 'POST':
@@ -41,7 +41,7 @@ class PageMaintenanceView(LoganFordNetView):
         
         return self.response
         
-    @view_config(route_name='page_view', renderer='../templates/pageview.pt')
+    @view_config(route_name='page_view', renderer='./pageview.pt')
     def page_view(self):
         route = '/'
         for string in self.request.matchdict['page_name']:
@@ -65,7 +65,7 @@ class PageMaintenanceView(LoganFordNetView):
         return HTTPFound(location=self.request.route_url('page_maintenance_list'))
         
     
-    @view_config(route_name='page_maintenance_edit', renderer='../templates/pageedit.pt', permission='edit')
+    @view_config(route_name='page_maintenance_edit', renderer='./pageedit.pt', permission='edit')
     def page_maintenance_edit(self):
         page_to_edit = self.request.context.page
         

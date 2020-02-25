@@ -3,12 +3,12 @@ from pyramid.view import view_config
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound
 
-from .loganfordnetview import LoganFordNetView
+from ..loganfordnetview import LoganFordNetView
 
-from ..models import User
+from ...models import User
 
 class LogInView(LoganFordNetView):
-    @view_config(route_name='log_in', renderer='../templates/login.pt')
+    @view_config(route_name='log_in', renderer='./login.pt')
     def log_in(self):
         if self.request.method == 'POST':
             failed = False

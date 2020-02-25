@@ -1,6 +1,0 @@
-<div metal:use-macro="load: include/layout.pt">
-    <div metal:fill-slot="content">
-        <h2>CSGO Ten-Mans</h2>
-        <p>Work in progress...</p>
-    </div>
-</div>

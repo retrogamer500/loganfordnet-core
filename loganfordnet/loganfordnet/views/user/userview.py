@@ -3,11 +3,11 @@ from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound
 from pyramid.security import Allow, Everyone, forget
 
-from .loganfordnetview import LoganFordNetView
-from ..models import User, UserPermission, Permission
+from ..loganfordnetview import LoganFordNetView
+from ...models import User, UserPermission, Permission
 
 class UserView(LoganFordNetView):
-    @view_config(route_name='user_view', renderer='../templates/user.pt', permission='view')
+    @view_config(route_name='user_view', renderer='./user.pt', permission='view')
     def user_view(self):
         user = self.request.context.user
         self.response['user'] = user
@@ -31,7 +31,7 @@ class UserView(LoganFordNetView):
         
         return HTTPFound(location=self.request.route_url('user_view', user_id = user.id))
         
-    @view_config(route_name='user_list', renderer='../templates/userlist.pt', permission='list')
+    @view_config(route_name='user_list', renderer='./userlist.pt', permission='list')
     def user_list(self):
         users = self.request.dbsession.query(User).all()
         self.response['users'] = users

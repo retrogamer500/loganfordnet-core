@@ -1,4 +1,4 @@
-<div metal:use-macro="load: include/layout.pt">
+<div metal:use-macro="load: ../layout.pt">
     <div metal:fill-slot="content">
         <h2>403 Unauthorized</h2>
     </div>
