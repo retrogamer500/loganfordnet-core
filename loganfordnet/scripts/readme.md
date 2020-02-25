@@ -1,0 +1,1 @@
+These scripts are from the legacy loganford.net, and they should be deleted when the new version goes live
