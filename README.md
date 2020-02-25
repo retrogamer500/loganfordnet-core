@@ -28,6 +28,7 @@ The steps below assume that, if you are running Windows, that you have installed
     127.0.0.1    sonarr.loganford.net
     127.0.0.1    radarr.loganford.net
     127.0.0.1    transmission.loganford.net
+    127.0.0.1    teamspeak.loganford.net
     ```
 
 ## Running site
@@ -57,8 +58,12 @@ Todo: add documentation here
 Todo: add documentation here
 
 ## Todo list
-* Add auth ticket tokens on login, verify in httpd
-* Add user configurations for subdomain access, and add links in sidebar
+* ~~Add auth ticket tokens on login, verify in httpd~~
+* ~~Add user configurations for subdomain access, and add links in sidebar~~
+* ~~Add teamspeak @loganford.net~~
+* Update dev and prod env files
 * Refactor view project structure to keep templates in the same folder as views
 * Clean up scripts and sql folder, and remove unneeded scripts
 * Add SSL support
+* Move teamspeak over to teamspeak.loganford.net?
+* LDAP support + authorization in pyramid
