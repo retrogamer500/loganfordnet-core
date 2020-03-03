@@ -2,12 +2,6 @@ import os
 
 from setuptools import setup, find_packages
 
-here = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(here, 'README.txt')) as f:
-    README = f.read()
-with open(os.path.join(here, 'CHANGES.txt')) as f:
-    CHANGES = f.read()
-
 requires = [
     'plaster_pastedeploy',
     'pyramid',
@@ -21,6 +15,7 @@ requires = [
     'SQLAlchemy',
     'transaction',
     'zope.sqlalchemy',
+    'pyramid_ldap',
 ]
 
 tests_require = [
@@ -33,7 +28,7 @@ setup(
     name='loganfordnet',
     version='0.0',
     description='loganfordnet',
-    long_description=README + '\n\n' + CHANGES,
+    long_description='loganfordnet',
     classifiers=[
         'Programming Language :: Python',
         'Framework :: Pyramid',

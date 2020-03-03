@@ -18,9 +18,9 @@ class LogInView(LoganFordNetView):
             
             user = self.request.dbsession.query(User).filter_by(name=username).first()
             
-            if user == None or not user.check_password(password):
+            if user == None or not user.check_ldap_password(password, self.request.registry.settings):
                 self.alert('Incorrect username or password.')
-                failed = True;
+                failed = True
             
             if not failed:
                 #Log in sucessful

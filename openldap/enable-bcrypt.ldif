@@ -1,0 +1,11 @@
+# Add bcrypt support
+dn: cn=config
+changetype: modify
+
+dn: cn=module{0},cn=config
+add: olcModuleLoad
+olcModuleLoad: /usr/lib/ldap/pw-bcrypt.so
+
+dn: olcDatabase={-1}frontend,cn=config
+add: olcPasswordHash
+olcPasswordHash: {BCRYPT}

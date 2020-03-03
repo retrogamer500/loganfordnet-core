@@ -1,0 +1,3 @@
+dn: ou=Users,dc=loganford,dc=net
+objectClass: organizationalUnit
+ou: Users

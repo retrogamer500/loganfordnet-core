@@ -24,7 +24,7 @@ def setup_models(dbsession, settings):
     """
     
     rootUser = models.User(name='root', role='admin')
-    rootUser.set_password(settings['root.password'])
+    rootUser.create_ldap_user(settings['root.password'], settings)
     dbsession.add(rootUser)
     
     dbsession.add(models.Permission(name='admin_user', group='admin', description='Access user administration'))

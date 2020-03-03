@@ -1,5 +1,8 @@
 import bcrypt
 import datetime
+import ldap
+import ldap.modlist
+import logging
 
 from sqlalchemy import Column, Integer, Text, ForeignKey
 from sqlalchemy.orm import relationship, reconstructor
@@ -9,12 +12,13 @@ from .user_permission import UserPermission
 
 from .meta import Base
 
+log = logging.getLogger(__name__)
+
 class User(Base):
     __tablename__ = 'user'
     id = Column(INTEGER, primary_key=True, index=True)
     name = Column(VARCHAR(length=100, charset='utf8mb4'), nullable=False, unique=True)
     role = Column(TEXT(length=100, charset='utf8mb4'), nullable=False)
-    password_hash = Column(TEXT(length=512))
     created_date = Column(TIMESTAMP, default=datetime.datetime.utcnow)
     permissions = relationship("UserPermission", back_populates="user")
         
@@ -35,13 +39,37 @@ class User(Base):
             user_permission = UserPermission(name=name, user=self, setting=1)
             self.permissions.append(user_permission)
         
+    def create_ldap_user(self, pw, settings):
+        con = ldap.initialize('ldap://openldap')
+        con.simple_bind_s("cn=admin,dc=loganford,dc=net", settings['ldap.password'])
 
-    def set_password(self, pw):
-        pwhash = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
-        self.password_hash = pwhash.decode('utf8')
+        dn = "uid=" + self.name + ",ou=users,dc=loganford,dc=net"
+        ldap_pw = '{BCRYPT}' + bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt()).decode("utf-8") 
+        modlist = {
+            "objectClass": [str.encode('person'), str.encode('extensibleObject')],
+            "sn": [str.encode(self.name)],
+            "cn": [str.encode(self.name)],
+            "userPassword": [str.encode(ldap_pw)],
+            "info": [str.encode('admin')],
+        }
+        
+        result = con.add_s(dn, ldap.modlist.addModlist(modlist))
 
-    def check_password(self, pw):
-        if self.password_hash is not None:
-            expected_hash = self.password_hash.encode('utf8')
-            return bcrypt.checkpw(pw.encode('utf8'), expected_hash)
+    def check_ldap_password(self, pw, settings):
+        con = ldap.initialize('ldap://openldap')
+        try:
+            con.simple_bind_s("uid=" + self.name + ",ou=users,dc=loganford,dc=net", pw)
+            return True
+        except ldap.INVALID_CREDENTIALS as err:
+            log.info('Invalid credentials: ' + str(err))
+        except ldap.LDAPError as err:
+            log.info('Other LDAP error: ' + str(err))
+        except:
+            log.info('Error while logging in: ' + str(sys.exc_info()[0]))
         return False
+    
+    def delete_ldap_user(self, settings):
+        con = ldap.initialize('ldap://openldap')
+        con.simple_bind_s("cn=admin,dc=loganford,dc=net", settings['ldap.password'])
+        dn = "uid=" + self.name + ",ou=users,dc=loganford,dc=net"
+        con.delete_s(dn)

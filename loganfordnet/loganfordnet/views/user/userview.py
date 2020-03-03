@@ -46,6 +46,7 @@ class UserView(LoganFordNetView):
         #    self.alert('You cannot delete yourself.')
         #    return HTTPFound(location=self.request.route_url('user_view', user_id = user_to_delete.id))
         
+        user_to_delete.delete_ldap_user(self.request.registry.settings)
         self.request.dbsession.delete(user_to_delete)
         self.alert('User has been deleted.')
         

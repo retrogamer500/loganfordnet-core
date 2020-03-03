@@ -38,6 +38,7 @@ Just execute the following bash script: `./run.sh`
 Command line options:
 
 * `-b`: rebuild docker containers
+* `-d`: restart from scratch, and delete all volumes
 
 ## Removing old docker images/volumes
 
@@ -46,7 +47,8 @@ Docker caches some steps, so if you want to test the full build process, you can
 ```
 docker-compose down
 docker rmi $(docker images -a -q)
-docker system prune --volumes
+docker system prune --volumes -f
+rm -rf ./volumes/
 ```
 
 ## Updating database

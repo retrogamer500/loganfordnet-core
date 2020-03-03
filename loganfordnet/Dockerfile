@@ -12,7 +12,9 @@ RUN apt-get update \
     gcc \
     python3-dev \
     build-essential \
-    libffi-dev 
+    libffi-dev \
+    libldap2-dev \ 
+    libsasl2-dev
 
 RUN pip3 install wheel && \
     pip3 install setuptools && \

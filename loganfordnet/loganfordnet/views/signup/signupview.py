@@ -9,6 +9,9 @@ from ..loganfordnetview import LoganFordNetView
 
 import re
 
+import logging
+log = logging.getLogger(__name__)
+
 username_regex = '^[a-zA-Z0-9_]+$'
 
 class SignUpView(LoganFordNetView):
@@ -53,7 +56,8 @@ class SignUpView(LoganFordNetView):
             
             if not failed:
                 new_user = User(name=username, role='user')
-                new_user.set_password(password)
+                new_user.create_ldap_user(password, self.request.registry.settings)
+
                 self.request.dbsession.add(new_user)
                 self.alert('Account \'' + username +'\' created!')
                 return HTTPFound(location=self.request.route_url('log_in'))

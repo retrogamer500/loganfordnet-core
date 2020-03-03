@@ -8,6 +8,23 @@ services:
      - ./config.env
     ports:
       - "80:80"
+  openldap:
+    build: 
+      context: ./openldap/
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ${V_ROOT}/openldap:/var/lib/ldap
+      - ${V_ROOT}/openldap:/etc/ldap/slapd.d
+      - ${V_ROOT}/openldap:/container/service/slapd/assets/certs/
+    domainname: "openldap" # important: same as hostname
+    hostname: "openldap"
+    env_file:
+      - ./config.env
+    ports:
+      - "389:389"
+    command: --loglevel debug
   loganfordnet:
     build:
       context: ./loganfordnet/
@@ -18,6 +35,7 @@ services:
       - ${LFN_ROOT}:/home/loganfordnet
     depends_on:
       - mysql
+      - openldap
     command: ["./startup.sh"]
   mysql:
     image: mysql
