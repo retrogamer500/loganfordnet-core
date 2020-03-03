@@ -49,8 +49,7 @@ class User(Base):
             "objectClass": [str.encode('person'), str.encode('extensibleObject')],
             "sn": [str.encode(self.name)],
             "cn": [str.encode(self.name)],
-            "userPassword": [str.encode(ldap_pw)],
-            "info": [str.encode('admin')],
+            "userPassword": [str.encode(ldap_pw)]
         }
         
         result = con.add_s(dn, ldap.modlist.addModlist(modlist))
@@ -67,6 +66,26 @@ class User(Base):
         except:
             log.info('Error while logging in: ' + str(sys.exc_info()[0]))
         return False
+
+    def set_ldap_permissions(self, settings):
+        con = ldap.initialize('ldap://openldap')
+        con.simple_bind_s("cn=admin,dc=loganford,dc=net", settings['ldap.password'])
+        dn = "uid=" + self.name + ",ou=users,dc=loganford,dc=net"
+
+        #Delete old stuff
+        try:
+            con.modify_s(dn, [(ldap.MOD_DELETE, 'info', None)])
+        except ldap.NO_SUCH_ATTRIBUTE:
+            log.info('No user info exists')
+
+        #Add new stuff
+        perms_to_add = []
+        for user_permission in self.permissions:
+            if user_permission.setting == 1 and user_permission.id is not None:
+                perms_to_add.append(str.encode(user_permission.name))
+
+        if len(perms_to_add) > 0:
+            con.modify_s(dn, [(0, 'info', perms_to_add)])
     
     def delete_ldap_user(self, settings):
         con = ldap.initialize('ldap://openldap')

@@ -28,6 +28,8 @@ class UserView(LoganFordNetView):
                 user.set_permission(permission[0], 1)
             else:
                 user.set_permission(permission[0], 0)
+
+        user.set_ldap_permissions(self.request.registry.settings)
         
         return HTTPFound(location=self.request.route_url('user_view', user_id = user.id))
         
